@@ -9,7 +9,7 @@ class CRM_Reportsandcustomsearch_Form_Search_EuFinder extends CRM_Contact_Form_S
   function buildForm(&$form) {
     $items = [];
     $defaults = [];
-    CRM_Utils_System::setTitle(E::ts('EP Search'));
+    CRM_Utils_System::setTitle(E::ts('EP Committee Search'));
 
     // Committees
     $committees = $this->getCommittees();
@@ -137,6 +137,8 @@ class CRM_Reportsandcustomsearch_Form_Search_EuFinder extends CRM_Contact_Form_S
         civicrm_contact
       where
         contact_sub_type  like '%EP_Committee%'
+      and
+        is_deleted = 0
       order by
         sort_name
     ";
