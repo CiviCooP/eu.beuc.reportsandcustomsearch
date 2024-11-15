@@ -55,7 +55,7 @@ class CRM_Reportsandcustomsearch_Members {
     foreach ($memberSummary as $member) {
       $data[] = [
         'membershipType' => $member['membership_type_id:label'],
-        'memberCount' => $member['numMembers'],
+        'membershipCount' => $member['numMembers'],
       ];
     }
 
