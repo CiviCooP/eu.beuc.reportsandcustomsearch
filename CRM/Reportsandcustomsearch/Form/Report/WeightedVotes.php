@@ -186,12 +186,7 @@ class CRM_Reportsandcustomsearch_Form_Report_WeightedVotes extends CRM_Report_Fo
   }
 
   public function statistics(&$rows) {
-    $statistics = [];
-    $statistics[] = [
-      'title' => ts('Row(s) Listed'),
-      'value' => count($rows) - 2, // minus to "totals" rows
-    ];
-    return $statistics;
+    return [];
   }
 
   private function makeBold(&$row) {
