@@ -183,6 +183,16 @@ class CRM_Reportsandcustomsearch_Form_Report_WeightedVotes extends CRM_Report_Fo
     $this->makeBold($row);
     $rows[] = $row;
 
+    $this->assign('summaryTitle', "BEUC Members in $referenceYear");
+    $data = [
+      ['membershipType' => 'test1', 'membershipCount' => 12],
+      ['membershipType' => 'test2', 'membershipCount' => 2342],
+    ];
+    $this->assign('summaryData', $data);
+  }
+
+  public function getTemplateFileName() {
+    return Civi::paths()->getPath('[civicrm.files]/ext/eu.beuc.reportsandcustomsearch/templates/CRM/Reportsandcustomsearch/Form/Report/WeightedVotes.tpl');
   }
 
   public function statistics(&$rows) {
