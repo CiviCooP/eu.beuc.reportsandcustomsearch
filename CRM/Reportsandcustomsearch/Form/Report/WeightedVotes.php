@@ -66,7 +66,7 @@ class CRM_Reportsandcustomsearch_Form_Report_WeightedVotes extends CRM_Report_Fo
   }
 
   function preProcess() {
-    $this->assign('reportTitle', 'Weighted votes');
+    $this->assign('reportTitle', 'BEUC members');
     parent::preProcess();
   }
 
@@ -183,6 +183,15 @@ class CRM_Reportsandcustomsearch_Form_Report_WeightedVotes extends CRM_Report_Fo
     $this->makeBold($row);
     $rows[] = $row;
 
+  }
+
+  public function statistics(&$rows) {
+    $statistics = [];
+    $statistics[] = [
+      'title' => ts('Row(s) Listed'),
+      'value' => count($rows) - 2, // minus to "totals" rows
+    ];
+    return $statistics;
   }
 
   private function makeBold(&$row) {
