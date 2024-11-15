@@ -45,6 +45,7 @@ class CRM_Reportsandcustomsearch_Members {
   public function getSummary() {
     $memberSummary = \Civi\Api4\Membership::get(FALSE)
       ->addSelect('membership_type_id:label', 'COUNT(*) AS numMembers')
+      ->addWhere('is_primary_member', '=', TRUE)
       ->addWhere('start_date', '<=', $this->referenceYear . '-12-31')
       ->addWhere('end_date', '>=', $this->referenceYear . '-12-31')
       ->addGroupBy('membership_type_id')
