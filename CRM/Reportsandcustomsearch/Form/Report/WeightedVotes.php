@@ -21,7 +21,7 @@ class CRM_Reportsandcustomsearch_Form_Report_WeightedVotes extends CRM_Report_Fo
       'display_name' => 'Member',
       'country' => 'Country',
       'membership_type' => 'Membership Type',
-      'membership_fee' => 'Fee Previous Year',
+      'membership_fee' => 'Fee',
       'membership_fee_percentage' => '% of Total',
       'membership_fee_status' => 'Payment Status',
       'voting_rights' => 'Voting rights?',
@@ -44,16 +44,16 @@ class CRM_Reportsandcustomsearch_Form_Report_WeightedVotes extends CRM_Report_Fo
 
   private function getReportFilters() {
     $currentYear = intval(date('Y'));
-    $toYear = $currentYear - 5;
-    
+    $toYear = $currentYear - 7;
+
     $years = [];
-    for ($i = $currentYear + 1; $i >= $toYear; $i--) {
+    for ($i = $currentYear; $i >= $toYear; $i--) {
       $years[$i] = $i;
     }
-    
+
     $filters = [
-      'voting_year' => [
-        'title' => 'Voting Year',
+      'reference_year' => [
+        'title' => 'Reference Year',
         'dbAlias' => '1',
         'type' => CRM_Utils_Type::T_INT,
         'operatorType' => CRM_Report_Form::OP_SELECT,
@@ -84,12 +84,12 @@ class CRM_Reportsandcustomsearch_Form_Report_WeightedVotes extends CRM_Report_Fo
   }
 
   public function alterDisplay(&$rows) {
-    $votingYear = $this->getVotingYear();
+    $referenceYear = $this->getReferenceYear();
 
     // build the report from scratch
     $rows = [];
 
-    $members = new CRM_Reportsandcustomsearch_Members($votingYear);
+    $members = new CRM_Reportsandcustomsearch_Members($referenceYear);
     $allMembers = $members->get();
     $totalFees = 0;
 
@@ -195,10 +195,10 @@ class CRM_Reportsandcustomsearch_Form_Report_WeightedVotes extends CRM_Report_Fo
     return '<a target=_blank href="' . CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $member['contact_id']) . '">' . $member['contact_id.display_name'] . '</a>';
   }
 
-  private function getVotingYear() {
+  private function getReferenceYear() {
     $values =  $this->exportValues();
-    
-    return $values['voting_year_value'];
+
+    return $values['reference_year_value'];
   }
 
 

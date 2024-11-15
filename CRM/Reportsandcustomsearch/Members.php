@@ -1,12 +1,10 @@
 <?php
 
 class CRM_Reportsandcustomsearch_Members {
-  public $votingYear;
-  public $votingYearMinusOne;
+  public $referenceYear;
 
-  public function __construct(int $votingYear) {
-    $this->votingYear = $votingYear;
-    $this->votingYearMinusOne = $votingYear - 1;
+  public function __construct(int $referenceYear) {
+    $this->referenceYear = $referenceYear;
   }
 
   public function get() {
@@ -14,24 +12,24 @@ class CRM_Reportsandcustomsearch_Members {
       ->addSelect('id', 'contact_id', 'contact_id.display_name', 'membership_type_id:label', 'address.country_id:label')
       ->addJoin('Address AS address', 'LEFT', ['contact_id', '=', 'address.contact_id'], ['address.is_primary', '=', 1])
       ->addWhere('is_primary_member', '=', TRUE)
-      ->addWhere('start_date', '<=', $this->votingYear . '-12-31')
-      ->addWhere('end_date', '>=', $this->votingYear . '-12-31')
+      ->addWhere('start_date', '<=', $this->referenceYear . '-12-31')
+      ->addWhere('end_date', '>=', $this->referenceYear . '-12-31')
       ->addOrderBy('contact_id.display_name', 'ASC')
       ->execute();
   }
 
   public function getMembershipFee($contactId) {
     $sql = "
-      select 
+      select
         ifnull(sum(total_amount), 0) fee,
         contribution_status_id
-      from 
-        civicrm_contribution 
-      where 
-        contact_id = $contactId 
-      and 
-        year(receive_date) = {$this->votingYearMinusOne} 
-      and 
+      from
+        civicrm_contribution
+      where
+        contact_id = $contactId
+      and
+        year(receive_date) = {$this->referenceYear}
+      and
         financial_type_id = 2
     ";
 
